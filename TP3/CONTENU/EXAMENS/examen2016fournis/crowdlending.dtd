@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT crowdlending (projet+)>
+<!ELEMENT projet (offre*)>
+<!ATTLIST projet
+    montant CDATA #REQUIRED
+    nom CDATA #REQUIRED>
+<!ELEMENT offre EMPTY>
+<!ATTLIST offre
+    montant CDATA #REQUIRED
+    taux CDATA #REQUIRED
+    numéro CDATA #REQUIRED
+    état CDATA #REQUIRED>

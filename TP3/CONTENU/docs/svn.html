@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Xavier Crégut Prenom.Nom@enseeiht.fr" />
+  <title>Utilisation de Subversion (SVN)</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style type="text/css">
+  table          { margin: auto; }                  /* centre le tableau dans la page */
+  table, th, td  { border-collapse: collapse; border: solid 2px #999; padding: 3px; }  /* ajout bordures */
+  caption        { caption-side: bottom; }          /* déplace la légende en-dessous du tableau */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Utilisation de Subversion (SVN)</h1>
+<p class="author">Xavier Crégut <a href="mailto:Prenom.Nom@enseeiht.fr"
+class="email">Prenom.Nom@enseeiht.fr</a></p>
+<p class="date">1er octobre 2021</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#ajouter-des-fichiers" id="toc-ajouter-des-fichiers"><span
+class="toc-section-number">1</span> Ajouter des fichiers</a></li>
+<li><a href="#supprimer-un-fichier-remove-ou-rm"
+id="toc-supprimer-un-fichier-remove-ou-rm"><span
+class="toc-section-number">2</span> Supprimer un fichier (remove ou
+rm)</a></li>
+<li><a href="#renommer-un-fichier-rename-ren-move-mv"
+id="toc-renommer-un-fichier-rename-ren-move-mv"><span
+class="toc-section-number">3</span> Renommer un fichier (rename, ren,
+move, mv)</a></li>
+<li><a href="#état-des-fichiers" id="toc-état-des-fichiers"><span
+class="toc-section-number">4</span> État des fichiers</a></li>
+<li><a
+href="#pousser-les-modifications-locales-vers-le-dépôt-centralisé"
+id="toc-pousser-les-modifications-locales-vers-le-dépôt-centralisé"><span
+class="toc-section-number">5</span> Pousser les modifications locales
+vers le dépôt centralisé</a></li>
+<li><a href="#mettre-à-jour-son-dépôt-local"
+id="toc-mettre-à-jour-son-dépôt-local"><span
+class="toc-section-number">6</span> Mettre à jour son dépôt
+local</a></li>
+<li><a href="#résoudre-un-conflit" id="toc-résoudre-un-conflit"><span
+class="toc-section-number">7</span> Résoudre un conflit</a></li>
+<li><a
+href="#différences-entre-la-version-locale-et-celle-récupérée-du-dépôt"
+id="toc-différences-entre-la-version-locale-et-celle-récupérée-du-dépôt"><span
+class="toc-section-number">8</span> Différences entre la version locale
+et celle récupérée du dépôt</a></li>
+<li><a href="#accéder-aux-différentes-versions"
+id="toc-accéder-aux-différentes-versions"><span
+class="toc-section-number">9</span> Accéder aux différentes
+versions</a></li>
+<li><a href="#annuler-les-modifications-locales"
+id="toc-annuler-les-modifications-locales"><span
+class="toc-section-number">10</span> Annuler les modifications
+locales</a></li>
+<li><a href="#conseils" id="toc-conseils"><span
+class="toc-section-number">11</span> Conseils</a></li>
+<li><a href="#exemple-dutilisation-de-svn"
+id="toc-exemple-dutilisation-de-svn"><span
+class="toc-section-number">12</span> Exemple d’utilisation de
+SVN</a></li>
+</ul>
+</nav>
+<h1 data-number="1" id="ajouter-des-fichiers"><span
+class="header-section-number">1</span> Ajouter des fichiers</h1>
+<p>Normalement, on ne met sur SVN que les fichiers sources et pas les
+fichiers qui peut être obtenus à partir d’autres.</p>
+<p>Quand on veut ajouter un nouveau fichier, il faut le dire
+explicitement :</p>
+<pre><code>svn add fichier...</code></pre>
+<p>fichier… sera alors marqué comme à ajouter. Il n’est cependant encore
+que dans la copie locale du dépôt.</p>
+<h1 data-number="2" id="supprimer-un-fichier-remove-ou-rm"><span
+class="header-section-number">2</span> Supprimer un fichier (remove ou
+rm)</h1>
+<pre><code>svn remove fichier...</code></pre>
+<p>Les fichiers seront supprimés localement et marqués comme devant être
+supprimés du dépôt.</p>
+<h1 data-number="3" id="renommer-un-fichier-rename-ren-move-mv"><span
+class="header-section-number">3</span> Renommer un fichier (rename, ren,
+move, mv)</h1>
+<pre><code>svn mv f1 f2</code></pre>
+<p>Renomme le fichier <code>f1</code> en <code>f2</code>.</p>
+<h1 data-number="4" id="état-des-fichiers"><span
+class="header-section-number">4</span> État des fichiers</h1>
+<p>Pour obtenir l’état de tous les fichiers du dépôt, faire :</p>
+<pre><code>svn status</code></pre>
+<h1 data-number="5"
+id="pousser-les-modifications-locales-vers-le-dépôt-centralisé"><span
+class="header-section-number">5</span> Pousser les modifications locales
+vers le dépôt centralisé</h1>
+<pre><code>svn commit -m &#39;Un message significatif&#39;</code></pre>
+<p>Il faut bien sûr fournir un message qui explique les changements ont
+été faits.</p>
+<p>Si on omet l’option <code>-m</code>, l’éditeur de texte (vi par
+défaut) sera appelé.</p>
+<p><strong>Remarque :</strong> Si on ne veut pousser que quelques
+fichiers, il suffit de les indiquer explicitement sur la ligne de
+commande.</p>
+<p><strong>Attention :</strong> Un <em>commit</em> ne peut être fait que
+si la version locale est à jours vis à vis du serveur. Si d’autres ont
+poussé leurs mofications, il faut d’abord les intégrer dans la copie
+locale du dépôt, résourdre les éventuels conflits et ensuite les pousser
+(voir points suivants).</p>
+<h1 data-number="6" id="mettre-à-jour-son-dépôt-local"><span
+class="header-section-number">6</span> Mettre à jour son dépôt
+local</h1>
+<p>Pour intégrer les modifications faites sur le serveurs par d’autres
+dans la copie locale du dépôt, il faut faire :</p>
+<pre><code>svn update</code></pre>
+<p><strong>Remarque :</strong> SVN essaiera de fusionner les
+modifications s’il y a des modifications faites en local et sur le
+serveur. S’il n’y arrive pas, il signalera un conflit. La commande
+propose alors plusieurs choix.</p>
+<p>Dans ce cas, le plus simple est de choisir ‘p’ (postpone). Le fichier
+sera alors marqué en conflit…</p>
+<h1 data-number="7" id="résoudre-un-conflit"><span
+class="header-section-number">7</span> Résoudre un conflit</h1>
+<p>Un fichier en conflit ne peut pas être poussé. Les
+<code>svn commit</code> seront refusés. Il faut d’abord résoudre le
+conflit.</p>
+<p>Il suffit d’éditer le fichier en conflit. SVN a ajouté des marqueurs
+pour montrer les différences entre la version locale du fichier (mine)
+et la version distante (identifiée par son numéro de version).</p>
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
+    message = &quot;bonjour&quot;;
+=======
+    message = &quot;salut&quot;;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r32931</code></pre>
+<p>Il faut alors faire la fusion manuellement sous l’éditeur de texte.
+Par exemple, on garde la ligne avec “bonjour” et on supprime les autres
+:</p>
+<pre><code>    message = &quot;bonjour&quot;;</code></pre>
+<p>Ceci étant fait, il faut dire à SVN que le conflit est résolu :</p>
+<pre><code>svn resolved fichier</code></pre>
+<p>On peut alors le pousser.</p>
+<h1 data-number="8"
+id="différences-entre-la-version-locale-et-celle-récupérée-du-dépôt"><span
+class="header-section-number">8</span> Différences entre la version
+locale et celle récupérée du dépôt</h1>
+<p>On peut savoir quelles sont les modifications faites par rapport à la
+dernière version récupérée du dépôt :</p>
+<pre><code>svn diff</code></pre>
+<p><strong>Attention :</strong> Ceci ne donne pas les modifications par
+rapport à la dernière version du dépôt !</p>
+<h1 data-number="9" id="accéder-aux-différentes-versions"><span
+class="header-section-number">9</span> Accéder aux différentes
+versions</h1>
+<p>Les commandes</p>
+<pre><code>svn log</code></pre>
+<p>ou</p>
+<pre><code>svn log fichier</code></pre>
+<p>permettent de voir les dernières modifications du dossier courant ou
+du fichier donné en argument. Pour chaque modifications, le numéro de
+version, l’auteur, la date, etc. sont données. Le message fourni lors du
+‘commit’ est aussi affiché.</p>
+<p>Le numéro de version peut être utilisé comme option
+(<code>-rxxx</code>) de update, checkout, etc. pour récupérer une
+version précise, de diff pour comparer un le fichier locale avec la
+version correspondante, etc.</p>
+<h1 data-number="10" id="annuler-les-modifications-locales"><span
+class="header-section-number">10</span> Annuler les modifications
+locales</h1>
+<p>On peut annuler les modifications locales sur un fichier en utilisant
+<code>svn revert</code>.</p>
+<pre><code>svn revert mon_fichier</code></pre>
+<p>Toutes les modifications apportées à <code>mon_fichier</code> depuis
+le dernnier <code>svn upade</code> seront supprimées. En d’autres
+termes, le fichier revient à l’état qu’il avait lors du dernier
+<code>svn update</code> réalisé. <strong>Cette commande est donc à
+utiliser avec précaution !</strong></p>
+<h1 data-number="11" id="conseils"><span
+class="header-section-number">11</span> Conseils</h1>
+<p>Toujours penser à faire un ‘update’ avant de commencer à travailler
+sur ses fichiers pour être sûr de récupérer les dernières modifications
+qui auraient pu être faites et poussées par d’aures personnes.</p>
+<p>Dans un gestionnaire de version, on ne met que les fichiers source et
+pas les fichiers qui peuvent être engendrés automatiquement (.o,
+exécutables, documentation engendrée, etc.).</p>
+<h1 data-number="12" id="exemple-dutilisation-de-svn"><span
+class="header-section-number">12</span> Exemple d’utilisation de
+SVN</h1>
+<p>On peut faire soit même ce petit tutoriel et simuler les deux
+utilisateurs Zoé et Luc depuis un dépot SVN. Il suffit de créer deux
+dossiers (par exemple dans /tmp), le premier qui s’appelle
+<code>zoe</code> et le second <code>luc</code>. Depuis chacun de ces
+deux dossiers on fait un <code>svn checkout</code> avec l’URL du dépôt.
+Les opérations réalisées dans le dossier <code>zoe</code> correspondront
+à Zoé et dans le dossier <code>luc</code> à Luc. On simule ainsi
+l’activité de deux utilisateurs ayant chacun une copie locale du même
+dépôt.</p>
+<table style="width:99%;">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 30%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Chez Zoé</td>
+<td>Sur le serveur SVN</td>
+<td>Chez Luc</td>
+<td>Commentaires</td>
+</tr>
+<tr class="even">
+<td><ol type="1">
+<li>vi fichier.txt</li>
+</ol>
+<p>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</p></td>
+<td></td>
+<td></td>
+<td>Zoé crée un nouveau fichier (fichier.txt)</td>
+</tr>
+<tr class="odd">
+<td><ol start="2" type="1">
+<li>svn add fichier.txt</li>
+</ol></td>
+<td></td>
+<td></td>
+<td>Zoé indique à SVN de garder les version de fichier.txt</td>
+</tr>
+<tr class="even">
+<td><ol start="3" type="1">
+<li>svn commit -m “nouveau”</li>
+</ol></td>
+<td></td>
+<td></td>
+<td>Zoé pousse ses modifications sur le serveur.</td>
+</tr>
+<tr class="odd">
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td></td>
+<td>fichier.txt est identique sur le serveur et chez Zoé.</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td><ol start="4" type="1">
+<li>svn update</li>
+</ol></td>
+<td>Luc met à jour sa version locale</td>
+</tr>
+<tr class="odd">
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td>fichier.txt est identique chez Zoé, Luc et sur le serveur</td>
+</tr>
+<tr class="even">
+<td><ol start="5" type="1">
+<li>vi fichier.txt</li>
+</ol></td>
+<td></td>
+<td><ol start="6" type="1">
+<li>vi fichier.txt</li>
+</ol></td>
+<td>Zoé et Luc modifient leur copie locale de fichier.txt.<br />
+Zoé a ajouté une ligne à la fin<br />
+Luc a ajouté une ligne au début<br />
+</td>
+</tr>
+<tr class="odd">
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td>Le fichier est différent chez Zoé, Luc et sur le serveur.</td>
+</tr>
+<tr class="even">
+<td><ol start="7" type="1">
+<li>svn commit -m “ajout fin”</li>
+</ol></td>
+<td></td>
+<td></td>
+<td>Zoé pousse sa version sur le serveur.</td>
+</tr>
+<tr class="odd">
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+——————————</td>
+<td>Le fichier est identique chez Zoé et sur le serveur. Le fichier de
+Luc est différent.</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td><ol start="8" type="1">
+<li>svn commit -m “ajout début”</li>
+</ol></td>
+<td>Luc pousse sa version. La commande échoue car le fichier a changé
+sur le serveur. Il doit commencer par faire un update.</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><ol start="9" type="1">
+<li>svn update G fichier.txt</li>
+</ol></td>
+<td>svn a réussi à fusionner les modifications. C’est ce qu’indique le
+‘G’ devant le fichier.</td>
+</tr>
+<tr class="even">
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>Le fichier est identique chez Zoé et sur le serveur. Le fichier de
+Luc est différent mais intègre bien les modifications du serveur (celles
+faites par Zoé)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><ol start="10" type="1">
+<li>svn commit -m “ajout début”</li>
+</ol></td>
+<td>Maintenant Luc peut pousser ses modifications.</td>
+</tr>
+<tr class="even">
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>fichier.txt est identique chez Zoé, Luc et sur le serveur</td>
+</tr>
+<tr class="odd">
+<td><ol start="11" type="1">
+<li>vim fichier.txt</li>
+</ol></td>
+<td></td>
+<td><ol start="12" type="1">
+<li>vim fichier.txt</li>
+</ol></td>
+<td>Zoé ajoute un point après “lignes”.<br />
+Luc remplace “plusieurs” par “quatre”.<br />
+</td>
+</tr>
+<tr class="even">
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes.<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>Les trois fichiers sont différents.</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><ol start="13" type="1">
+<li>svn commit -m “quatre”</li>
+</ol></td>
+<td>Luc est le plus rapide à faire son commit.</td>
+</tr>
+<tr class="even">
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur plusieurs lignes.<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>Le fichier de Luc et celui du serveur sont identiques.</td>
+</tr>
+<tr class="odd">
+<td><ol start="14" type="1">
+<li>svn commit -m “ponctuation”</li>
+</ol></td>
+<td></td>
+<td></td>
+<td>Comme tout à l’heure, le commit échoue. Il faut commencer par faire
+un update.</td>
+</tr>
+<tr class="even">
+<td><ol start="15" type="1">
+<li>svn update</li>
+</ol></td>
+<td></td>
+<td></td>
+<td>Zoé a moins de chance que Luc. SVN n’a pas été capable de fusionner
+les modifications. Elle choisit ‘p’ (postbon) et le fichier arrive en
+conflit chez elle. Elle devra régler le conflit avant de pouvoir faire
+le commit.</td>
+</tr>
+<tr class="odd">
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine<br />
+sur plusieurs lignes.<br />
+||||||| .r126606<br />
+sur plusieurs lignes<br />
+=======<br />
+sur quatre lignes<br />
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r126608<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td><p>Le fichier de Luc et celui du serveur sont identiques. Celui de
+Zoé contient des marqueurs ajoutés par SVN qui indiquent les différences
+entre sa version et celle récupérée du serveur.</p>
+<p>Après les <code>=======</code>, on a la version récupérée sur le
+serveur (version .r126608). Avant, on a la version locale, en précisant
+la version actuelle avant <code>|||||||</code> et la dernière version
+récupérée du serveur avant le conflit (r126606).</p></td>
+</tr>
+<tr class="even">
+<td><ol start="16" type="1">
+<li>svn status</li>
+</ol>
+<p>C fichier.txt<br />
+? fichier.txt.mine<br />
+? fichier.txt.r126606<br />
+? fichier.txt.r126608<br />
+Résumé des conflits :<br />
+  Conflits textuels : 1<br />
+</p></td>
+<td></td>
+<td></td>
+<td>Zoé affiche l’état des fichiers.</td>
+</tr>
+<tr class="odd">
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes.<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td><p>C’est à elle de résoudre les conflits : elle garde son point et
+remplace “plusieurs” par “quatre”.</p>
+<p>Attention à ne pas perdre ou écraser les modifications des
+autres.</p></td>
+</tr>
+<tr class="even">
+<td><ol start="17" type="1">
+<li>svn resolved fichier.txt</li>
+</ol>
+<p>Conflit sur ‘fichier.txt’ résolu</p></td>
+<td></td>
+<td></td>
+<td>Il faut dire que le conflit est résolu.</td>
+</tr>
+<tr class="odd">
+<td><ol start="18" type="1">
+<li>svn commit -m “ponctuation”</li>
+</ol></td>
+<td></td>
+<td></td>
+<td>Les modifications sont poussées sur le serveur.</td>
+</tr>
+<tr class="even">
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes.<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes.<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td>—- fichier.txt ————-<br />
+Ligne ajoutée par Luc<br />
+Ceci est le contenu du fichier<br />
+sur quatre lignes<br />
+Ligne ajoutée par Zoé<br />
+——————————</td>
+<td><p>C’est à elle de résoudre les conflits : elle garde son point et
+remplace “plusieurs” par “quatre”.</p>
+<p>Attention à ne pas perdre ou écraser les modifications des
+autres.</p></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

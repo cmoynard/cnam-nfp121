@@ -1,0 +1,111 @@
+Module NFP121 : Programmation Avancée
+
+--------------------------------------------------------------------------------
+
+Séance   1 [12/12/2023 09:00] : 190 minutes
+	Presentation 1 : Présentation du module (10')
+	CM 1 : Abstraction et modularité : classes (60') [50 : 0 --> 50]
+	TD 1 : Algorithmes simples en Java (2')
+	TD 2 : Développer d'autres classes (90')  > CM1 [KO:<cm:classes>SSéance 2:[Java, Séance  2, 1 @ 15/12/2023 09:00]] CM1 [KO:<cm:constructeurs>SSéance 2:[Java, Séance  2, 1 @ 15/12/2023 09:00]]
+	TD 3 : Spécification et implantation (38')  > CM1 [KO:<cm:classes>SSéance 2:[Java, Séance  2, 1 @ 15/12/2023 09:00]] CM1 [KO:<cm:constructeurs>SSéance 2:[Java, Séance  2, 1 @ 15/12/2023 09:00]]
+
+--------------------------------------------------------------------------------
+
+Séance   2 [15/12/2023 09:00] : 190 minutes
+	TP 1 : Points et segments (80')  > TD3
+	TP 2 : Tester la classe Point avec JUnit (18')  > TP1
+	TU 1 : Introduction à Eclipse (20')
+	TP 3 : La classe Cercle (60')  > TP1
+	TP 4 : La classe Polygone (2')  > TP3 CM1
+	CM 1 : Abstraction et modularité : classes (60') [10 : 50 --> 60]
+
+--------------------------------------------------------------------------------
+
+Séance   3 [08/01/2024 09:00] : 190 minutes
+	CM 2 : Relations entre classes et diagrammes de séquence (20')
+	CM 3 : Interfaces et généricité (10')
+	TD 4 : Ensemble ordonné (80')  > CM1
+	TP 5 : Afficher graphiquement les points et les segments (80')
+
+--------------------------------------------------------------------------------
+
+Séance   4 [11/01/2024 09:00] : 190 minutes
+	CM 4 : Héritage (10')
+	TP 6 : Héritage comme spécialisation (30')  > CM4
+	TP 7 : Héritage comme généralisation (30')  > CM4 TP6
+	TD 5 : Comptes bancaires : une vue simplifiée (80')  > CM4 TP3
+	TP 8 : Outils associés à Java Modeling Language (JML) (10')  > TD4 CM1
+	TP 9 : Réalisation d'un ensemble d'entiers (30')  > TD4 TP8
+
+================================================================================ 6
+
+Séance   5 [05/02/2024 09:00] : 190 minutes
+	CM 5 : Exceptions (10')
+	TD 6 : Exceptions (80')  > CM5
+	TP 10 : Exception : Agendas hiérarchiques (100')  > TD6
+
+--------------------------------------------------------------------------------
+
+Séance   6 [09/02/2024 09:00] : 190 minutes
+	TD 7 : Un éditeur orienté ligne (85')
+	TP 11 : Un éditeur orienté ligne (105')  > TD7
+
+================================================================================ 10
+
+Séance   7 [04/03/2024 13:30] : 190 minutes
+	TD 8 : Variations autour de la relation Segment-Point (60')  > CM4 TP6
+	TD 9 : Égalité entre points et point nommés (45')  > CM4 TP6
+	TD 10 : Encore les segments et les points ! (70')
+	TP 12 : Pouvoir annuler les opérations de l'éditeur (15')  > TP11
+
+--------------------------------------------------------------------------------
+
+Séance   8 [05/03/2024 13:30] : 190 minutes
+	CM 6 : Swing, GUI et programmation événementielle (20')
+	TU 2 : Comprendre Swing (40')
+	TP 13 : Jeu du Morpion (60')  > CM6
+	TP 14 : Discussion instantanée : mise en pratique du MVC (70')  > TP22 [KO:<td:Morpion:MVC>]
+
+================================================================================ 14
+
+Séance   9 [04/04/2024 09:00] : 190 minutes
+	CM 7 : Collections en Java et introduction aux patrons de conception (40')
+	TU 3 : Comprendre l'API des collections (50')
+	TP 15 : API Collection : localisation des personnels (50')
+	TP 16 : API Collection : prix des carburants (50')
+
+================================================================================ 17
+
+Séance  10 [22/04/2024 09:00] : 190 minutes
+	CM 8 : Introspection en Java (60')
+	TP 17 : Introspection (130')
+
+--------------------------------------------------------------------------------
+
+Séance  11 [26/04/2024 09:00] : 160 minutes
+	CM 9 : XML, SaX et JDOM (60') [30 : 0 --> 30]
+	TP 18 : Documents XML et API SaX et DOM (130')
+
+================================================================================ 19
+
+Séance  12 [07/05/2024 09:00] : 190 minutes
+	TD 11 : Patron de conception : le visiteur (95')
+	TP 19 : Mise en pratique du visiteur (60')  > TD11
+	Revisions 1 : Révisions sur les annales (190') [35 : 0 --> 35]
+
+================================================================================ 21
+
+Séance  13 [22/05/2024 09:00] : 191 minutes
+	PR 1 : Projet (191')
+
+================================================================================ 22
+
+FIN  1 [28/05/2024 08:00] : 1 minutes
+	FIN 1 : FIN (10') [1 : 0 --> 1]
+
+================================================================================ 27
+
+Séance  14 [01/07/2024 13:30] : 150 minutes (MAIS durée sujets = 120 !!!)
+	EXAMEN 1 : Examen (120')
+
+--------------------------------------------------------------------------------

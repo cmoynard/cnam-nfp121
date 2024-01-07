@@ -1,0 +1,48 @@
+@startuml
+
+interface Iterable<E> {
+}
+
+Iterable <|-- Plateforme : "«bind»(Projet)"
+Iterable <|-- Projet : "«bind»(Offre)"
+
+interface Plateforme {
+	ouvrirProjet(nom: String, montant: int)
+	getProjet(nom: String)
+	faireOffre(nom: String, montant: int, taux: double)
+}
+
+interface Projet {
+	getNom(): String
+	getMontant(): int
+	faireOffre(montant: int, taux: double)
+}
+
+interface Offre {
+	getNumero(): int
+	getMontant(): int
+	getTaux(): double
+}
+
+Plateforme *-right-> "*" Projet
+Projet *-right-> "*" Offre
+
+class OffreConcrete implements Offre {
+	__
+	'__'__
+	' Offre(numero: int, montant: int, taux: double)'
+}
+
+class ProjetConcret implements Projet {
+	__
+	'__'
+	' Projet(nom: String, montant: int)'
+}
+
+class PlateformeConcrete implements Plateforme {
+	/'__
+	__
+	# Plateforme()'/
+}
+
+@enduml

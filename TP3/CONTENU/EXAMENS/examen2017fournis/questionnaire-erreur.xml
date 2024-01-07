@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE questionnaire SYSTEM "questionnaire.dtd">
+
+<questionnaire>
+  <question type=qrc id=Q1 reponse=final>
+    <texte>Accessible à tous ?
+  </question>
+  <question type=qrc id=Q2 reponse=final>
+    <texte>Non modifiable ?
+  </question>
+  <question type=qrc id=Q3 reponse=10>
+    <texte>2 * 3 + 4 ?
+  </question>
+</questionnaire>

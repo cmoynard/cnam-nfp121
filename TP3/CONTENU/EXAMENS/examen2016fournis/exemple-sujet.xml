@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE crowdlending SYSTEM "crowdlending.dtd">
+
+<crowdlending>
+    <projet nom="XYZ">
+	<montant>120000</montant>
+	<offre numéro="1" montant="50" taux="7.5" état="EN-COURS" />
+	<offre numéro="2" montant="120" taux="10.0" état="EN-COURS" />
+	<offre numéro="3" montant="20" taux="9.9" état="EN-COURS" />
+    </projet>
+    <projet nom="ABC">
+	<montant>30000</montant>
+    </projet>
+</crowdlending>

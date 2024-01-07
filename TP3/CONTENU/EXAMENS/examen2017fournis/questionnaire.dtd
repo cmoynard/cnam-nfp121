@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT questionnaire (question+)>
+<!ELEMENT question (texte, reponse)>
+<!ATTLIST question
+	type CDATA #REQUIRED
+	id ID #REQUIRED
+>
+<!ELEMENT texte (#PCDATA)>
+<!ELEMENT reponse (#PCDATA)>
+
