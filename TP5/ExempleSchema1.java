@@ -1,3 +1,4 @@
+import afficheur.Ecran;
 
 /** Construire le schéma proposé dans le sujet de TP avec des points,
   * et des segments.
@@ -20,6 +21,8 @@ public class ExempleSchema1 {
 		Segment s12 = new Segment(p1, p2);
 		Segment s23 = new Segment(p2, p3);
 		Segment s31 = new Segment(p3, p1);
+
+		Ecran superEcran = new Ecran("Schema", 600, 400, 20);
 
 		// Créer le barycentre
 		double sx = p1.getX() + p2.getX() + p3.getX();
