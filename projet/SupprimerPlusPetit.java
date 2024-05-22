@@ -5,6 +5,16 @@
   */
 public class SupprimerPlusPetit extends Traitement {
 
-	// TODO Ã  faire...
+    private final double seuil;
 
+    public SupprimerPlusPetit(double seuil) {
+        this.seuil = seuil;
+    }
+
+    @Override
+    public void traiter(Position position, double valeur) {
+        if (valeur >= seuil) {
+            super.traiter(position, valeur);
+        }
+    }
 }

@@ -30,7 +30,7 @@ abstract public class Traitement {
 	private String toString(String prefixe) {
 		String res =  this.getClass().getName();
 		String complement = this.toStringComplement();
-		if (complement != null && complement.length() > 0) {
+		if (complement != null && !complement.isEmpty()) {
 			res += "(" + complement + ")";
 		}
 		if (this.suivants.size() <= 1) {

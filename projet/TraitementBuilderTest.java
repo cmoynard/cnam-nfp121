@@ -42,7 +42,7 @@ public class TraitementBuilderTest {
 	/** Tester decoderEffectif. */
 	@Test
 	public void testerDecoderEffectif() throws Exception {
-		Scanner s = new Scanner("13 12.5 texte fin");
+		Scanner s = new Scanner("13 12,5 texte fin");
 		assertEquals(13, TraitementBuilder.decoderEffectif(int.class, s));
 		assertTrue("decoderEffectif ne doit lire qu'un mot.", s.hasNext("12.5"));
 		assertEquals(12.5, TraitementBuilder.decoderEffectif(double.class, s));
@@ -82,7 +82,7 @@ public class TraitementBuilderTest {
 	/** Tester analyserSignature : 3 paramÃ¨tres */
 	@Test
 	public void testerAnalyserSignature3() throws Exception {
-		Scanner in = new Scanner("3 double 0.0 java.lang.String xyz int -5 suite");
+		Scanner in = new Scanner("3 double 0,0 java.lang.String xyz int -5 suite");
 		TraitementBuilder.Signature s = builder.analyserSignature(in);
 		verifierFormels(s, double.class, String.class, int.class);
 		verifierEffectifs(s, 0.0, "xyz", -5);
@@ -129,7 +129,7 @@ public class TraitementBuilderTest {
 	/** Cas d'un traitement avec un paramÃ¨tre. */
 	@Test
 	public void testerParametre1() throws Exception {
-		Traitement resultat = new TraitementBuilder().traitement(new Scanner("SupprimerPlusPetit 1 double 1.0 0"), null);
+		Traitement resultat = new TraitementBuilder().traitement(new Scanner("SupprimerPlusPetit 1 double 1,0 0"), null);
 		assertEquals(SupprimerPlusPetit.class, resultat.getClass());
 		assertEquals(0, suivants(resultat).size());
 		Field[] fields = resultat.getClass().getDeclaredFields();

@@ -1,10 +1,18 @@
 /**
-  * Multiplicateur transmet la valeur multipliÃ©e par un facteur.
-  *
-  * @author	Xavier CrÃ©gut <Prenom.Nom@enseeiht.fr>
-  */
+ * Multiplicateur transmet la valeur multipliée par un facteur.
+ *
+ * @author	Xavier Crégut <Prenom.Nom@enseeiht.fr>
+ */
 public class Multiplicateur extends Traitement {
 
-	// TODO Ã  faire...
+    private final double facteur;
 
+    public Multiplicateur(double facteur) {
+        this.facteur = facteur;
+    }
+
+    @Override
+    public void traiter(Position position, double valeur) {
+        super.traiter(position, valeur * facteur);
+    }
 }

@@ -6,7 +6,22 @@
 
 public class Somme extends SommeAbstrait {
 
-	// TODO Ã  faire...
+	private double total;
+
+	public Somme() {
+		this.total = 0;
+	}
+
+	@Override
+	public void traiter(Position position, double valeur) {
+		this.total += valeur;
+		super.traiter(position, valeur);
+	}
+
+	@Override
+	public double somme() {
+		return this.total;
+	}
 
 
 	@Override

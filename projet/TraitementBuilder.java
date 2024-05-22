@@ -14,7 +14,16 @@ public class TraitementBuilder {
 	 *   - Normaliseur donne Normaliseur.class
 	 */
 	Class<?> analyserType(String nomType) throws ClassNotFoundException {
-		return null;	// TODO Ã  remplacer
+		switch (nomType) {
+			case "int":
+				return int.class;
+			case "double":
+				return double.class;
+			case "String":
+				return String.class;
+			default:
+				return nomType.getClass();
+		}
 	}
 
 	/** CrÃ©e l'objet java qui correspond au type formel en exploitant le Â« mot Â» suivant du scanner.
@@ -22,7 +31,15 @@ public class TraitementBuilder {
 	 * Ici, on peut se limiter aux types utlisÃ©s dans le projet : int, double et String.
 	 */
 	static Object decoderEffectif(Class<?> formel, Scanner in) {
-		return null;	// TODO Ã  remplacer
+		if (formel == int.class) {
+			return in.nextInt();
+		} else if (formel == double.class) {
+			return in.nextDouble();
+		} else if (formel == String.class) {
+			return in.next();
+		} else {
+			throw new RuntimeException("Type non supporté : " + formel);
+		}
 	}
 	
 
@@ -44,7 +61,33 @@ public class TraitementBuilder {
 	 *   - [0.0, "xyz", -5] pour les paramÃ¨tres formels.
 	 */
 	Signature analyserSignature(Scanner in) throws ClassNotFoundException {
-		return null;	// TODO Ã  remplacer
+		int paramsNumber = in.nextInt();
+
+		Class<?>[] formels = new Class<?>[paramsNumber];
+		Object[] effectifs = new Object[paramsNumber];
+
+		for (int i = 0; i < paramsNumber; i++) {
+			String paramType = in.next();
+			switch (paramType) {
+				case "int":
+					formels[i] = int.class;
+					effectifs[i] = in.nextInt();
+					break;
+				case "double":
+					formels[i] = double.class;
+					effectifs[i] = in.nextDouble();
+					break;
+				case "String":
+				case "java.lang.String":
+					formels[i] = String.class;
+					effectifs[i] = in.next();
+					break;
+				default:
+					throw new IllegalArgumentException("Unsupported parameter type: " + paramType);
+			}
+		}
+
+		return new Signature(formels, effectifs);
 	}
 
 
@@ -58,7 +101,37 @@ public class TraitementBuilder {
 						  IllegalAccessException, NoSuchMethodException,
 						  InstantiationException
 	{
-		return null;	// TODO Ã  remplacer
+		String classname = in.next();
+
+		int paramsNumber = in.nextInt();
+
+		Class<?>[] paramsTypes = new Class<?>[paramsNumber];
+		Object[] paramsValeurs = new Object[paramsNumber];
+
+		for (int i = 0; i < paramsNumber; i++) {
+			String paramType = in.next();
+			switch (paramType) {
+				case "int":
+					paramsTypes[i] = int.class;
+					paramsValeurs[i] = in.nextInt();
+					break;
+				case "double":
+					paramsTypes[i] = double.class;
+					paramsValeurs[i] = in.nextDouble();
+					break;
+				case "String":
+					paramsTypes[i] = String.class;
+					paramsValeurs[i] = in.next();
+					break;
+				default:
+					throw new IllegalArgumentException("Unsupported parameter type: " + paramType);
+			}
+		}
+
+		Class<?>defclass = Class.forName(classname);
+		Constructor<?> constructor = defclass.getConstructor(paramsTypes);
+
+		return constructor.newInstance(paramsValeurs);
 	}
 
 
@@ -72,14 +145,52 @@ public class TraitementBuilder {
 	 * @param in le scanner Ã  utiliser
 	 * @param env l'environnement oÃ¹ enregistrer les nouveaux traitements
 	 */
-	Traitement analyserTraitement(Scanner in, Map<String, Traitement> env)
-		throws ClassNotFoundException, InvocationTargetException,
-						  IllegalAccessException, NoSuchMethodException,
-						  InstantiationException
-	{
-		return null;	// TODO Ã  remplacer
-	}
 
+	Traitement analyserTraitement(Scanner in, Map<String, Traitement> env)
+			throws ClassNotFoundException, InvocationTargetException,
+			IllegalAccessException, NoSuchMethodException,
+			InstantiationException
+	{
+		String traitementNom = in.next();
+		int paramsNumber = in.nextInt();
+
+		Class<?>[] paramsTypes = new Class<?>[paramsNumber];
+		Object[] paramsValeurs = new Object[paramsNumber];
+
+		for (int i = 0; i < paramsNumber; i++) {
+			String paramType = in.next();
+			switch (paramType) {
+				case "int":
+					paramsTypes[i] = int.class;
+					paramsValeurs[i] = in.nextInt();
+					break;
+				case "double":
+					paramsTypes[i] = double.class;
+					paramsValeurs[i] = in.nextDouble();
+					break;
+				case "String":
+				case "java.lang.String":
+					paramsTypes[i] = String.class;
+					paramsValeurs[i] = in.next();
+					break;
+				default:
+					throw new IllegalArgumentException("Unsupported parameter type: " + paramType);
+			}
+		}
+
+		Class<?> traitementClass = Class.forName(traitementNom);
+		Constructor<?> constructor = traitementClass.getConstructor(paramsTypes);
+
+		Traitement traitement = (Traitement) constructor.newInstance(paramsValeurs);
+
+		int suivantsNumber = in.nextInt();
+		for (int i = 0; i < suivantsNumber; i++) {
+			Traitement traitementSuivant = analyserTraitement(in, env);
+			traitement.ajouterSuivants(traitementSuivant);
+		}
+
+		return traitement;
+	}
 
 	/** Analyser un traitement.
 	 * @param in le scanner Ã  utiliser
