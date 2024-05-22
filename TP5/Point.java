@@ -88,4 +88,8 @@ public class Point {
 		this.couleur = nouvelleCouleur;
 	}
 
+	public void dessiner() {
+
+	}
+
 }

@@ -1,6 +1,7 @@
 package editeur;
 
 import editeur.commande.*;
+import menu.Commande;
 import menu.Menu;
 
 /** Un éditeur pour une ligne de texte.  Les commandes de
@@ -32,6 +33,10 @@ public class EditeurLigne {
 					new CommandeCurseurAvancer(ligne));
 		menuPrincipal.ajouter("Reculer le curseur d'un caractère",
 					new CommandeCurseurReculer(ligne));
+		menuPrincipal.ajouter("Retourner le curseur au début de la ligne",
+					new CommandeCurseurDebut(ligne));
+		menuPrincipal.ajouter("Supprimer le caractère du curseur",
+				new CommandeSupprimerCaractere(ligne));
 	}
 
 	public void editer() {
