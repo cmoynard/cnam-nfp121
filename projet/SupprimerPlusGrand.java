@@ -5,6 +5,17 @@
   */
 public class SupprimerPlusGrand extends Traitement {
 
-	// TODO Ã  faire...
+	private double max;
+
+    public SupprimerPlusGrand(double seuil) {
+        this.max = max;
+    }
+
+    @Override
+    public void traiter(Position position, double valeur) {
+        if (valeur <= this.max) {
+            super.traiter(position, valeur);
+        }
+    }
 
 }
