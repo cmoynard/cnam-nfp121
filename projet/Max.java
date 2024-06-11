@@ -6,6 +6,27 @@
 
 public class Max extends Traitement {
 
-	// TODO Ã  faire...
+	private double maximum;
+
+    public Max() {
+        this.maximum = Double.NEGATIVE_INFINITY;
+    }
+
+    @Override
+    public void traiter(Position position, double valeur) {
+        if (valeur > this.maximum) {
+            this.maximum = valeur;
+        }
+        super.traiter(position, valeur);
+    }
+
+    public double getMax() {
+        return this.maximum;
+    }
+
+    @Override
+    public void gererFinLotLocal(String nomLot) {
+        System.out.println(nomLot + ": max = " + this.getMax());
+    }
 
 }
