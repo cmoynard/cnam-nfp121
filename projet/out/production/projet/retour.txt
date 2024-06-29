@@ -1,0 +1,8 @@
+
+* questionnaire.txt non complété
+* ExempleAnalyse : erreur lors de l'exécution
+* Pas de détection des cycles
+* GenerateurXML: non fait.
+* Normaliseur : il faut utiliser les autres traitements.
+* Positions: frequence peut être fait en utilisant la bibliothèque des collections.
+* SaisiesSwing : non fait.
