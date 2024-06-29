@@ -3,4 +3,3 @@
 * ExempleAnalyse : erreur lors de l'exécution
 * Pas de détection des cycles
 * Positions: frequence peut être fait en utilisant la bibliothèque des collections.
-* SaisiesSwing : non fait.

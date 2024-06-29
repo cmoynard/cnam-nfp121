@@ -31,12 +31,6 @@ public class Positions extends PositionsAbstrait {
 
     @Override
     public int frequence(Position position) {
-        int count = 0;
-        for (Position pos : positions) {
-            if (pos.equals(position)) {
-                count++;
-            }
-        }
-        return count;
+        return Collections.frequency(positions, position);
     }
 }
