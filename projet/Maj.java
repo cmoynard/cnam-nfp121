@@ -6,6 +6,20 @@
  */
 public class Maj extends Traitement {
 
-	// TODO Ã  faire...
+	@Override
+    protected String toStringComplement() {
+        return "maj";
+    }
+
+    @Override
+    public void traiter(Position position, double valeur) {
+        System.out.println("Maj : " + position + " = " + valeur);
+        super.traiter(position, valeur);
+    }
+
+    @Override
+    public void gererFinLotLocal(String nomLot) {
+        System.out.println(nomLot + ": fin lot");
+    }
 
 }
