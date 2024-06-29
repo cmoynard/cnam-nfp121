@@ -10,16 +10,16 @@ import java.util.logging.Logger;
 
 public class SaisiesSwing extends JFrame {
     private static final Logger LOGGER = Logger.getLogger(SaisiesSwing.class.getName());
-    private JTextField absInput;
-    private JTextField ordInput;
-    private JTextField valInput;
+    private final JTextField absInput;
+    private final JTextField ordInput;
+    private final JTextField valInput;
     private int id = 1;
-    private final String fileName;
-    private final List<Data> dataList;
+    private final String fichier;
+    private final List<Data> données;
 
-    public SaisiesSwing(String fileName) {
-        this.fileName = fileName;
-        this.dataList = new ArrayList<>();
+    public SaisiesSwing(String fichier) {
+        this.fichier = fichier;
+        this.données = new ArrayList<>();
 
         JPanel inputPanel = new JPanel(new GridLayout(3, 2));
         inputPanel.add(new JLabel("Abscisse:"));
@@ -94,7 +94,7 @@ public class SaisiesSwing extends JFrame {
                     valInput.setBackground(Color.WHITE);
                     ordInput.setBackground(Color.WHITE);
                     absInput.setBackground(Color.WHITE);
-                    dataList.add(data);
+                    données.add(data);
                     System.out.println("Data " + id + ": " + data);
                     id++;
                 }
@@ -106,10 +106,10 @@ public class SaisiesSwing extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Create a new file
                 String fileWithExtension;
-                if (!fileName.endsWith(".txt")) {
-                    fileWithExtension = fileName + ".txt";
+                if (!fichier.endsWith(".txt")) {
+                    fileWithExtension = fichier + ".txt";
                 } else {
-                    fileWithExtension = fileName;
+                    fileWithExtension = fichier;
                 }
                 File file = new File(fileWithExtension);
                 try {
@@ -119,16 +119,16 @@ public class SaisiesSwing extends JFrame {
                         System.out.println("File already exists.");
                     }
                 } catch (IOException ex) {
-                    LOGGER.log(Level.SEVERE, "An error occurred while creating the file", ex);
+                    LOGGER.log(Level.SEVERE, "Une erreur est survenue lors de la création du fichier", ex);
                 }
 
                 // Save the data to a file
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-                    for (Data data : dataList) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(fichier, true))) {
+                    for (Data data : données) {
                         writer.write(data + "\n");
                     }
                 } catch (IOException ex) {
-                    LOGGER.log(Level.SEVERE, "An error occurred while creating the file", ex);
+                    LOGGER.log(Level.SEVERE, "Une erreur est survenue lors de l'écriture des données", ex);
                 }
 
                 System.exit(0);
