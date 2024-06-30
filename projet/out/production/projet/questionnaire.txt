@@ -12,7 +12,6 @@ pandoc --toc -s -o questionnaire.html questionnaire.txt
 
 
 # Points non traités du sujet
-- Introspection
 - ExempleAnalyse / Dernière analyse : erreur lors de l'exécution
 ...
 
@@ -22,37 +21,41 @@ pandoc --toc -s -o questionnaire.html questionnaire.txt
 
 ## Quelle est la classe du traitement choisi ?
 
-...
+Modulo
 
 
 ## Pourquoi avoir fait de traitement une classe abstraite et non une interface ?
 
-...
+Car il y a des méthodes communes à tous les traitements, cela permet de factoriser le code
+et de ne pas le répéter dans chaque classe de traitement
 
 
 ## Pourquoi certaines méthodes sont déclarées `final` ?
 
-...
+Pour empêcher les classes enfants de les redéfinir et de modifier ce qu'ils font
 
 
 ## La classe Traitement est abstraite alors qu'elle ne contient pas de méthodes abstraites. Pourquoi ?
 
-...
+Une classe abstraite sans méthodes abstraites empêche l'instanciation directe
+et fournit des fonctionnalités communes aux sous-classes pour servir de base
 
 
 ## Est-ce que de faire de Traitement une classe abstraite est vraiment logique ici ?
 
-...
+Oui, car il y a des méthodes communes à tous les traitements, ça factorise le code
 
 
 ## Pour le traitement Normaliseur, quels autres traitements avez-vous utilisés et comment ?
 
-...
+j'ai utilisé Traiter pour traiter les positions et les normaliser, ainsi que
+gérerFinLotLocal pour passer d'un lot à un autre
 
 
 ## Quelles modifications avez-vous été obligés de faire sur la classe Position ?
 
-...
+j'ai ajouté le traitement via la méthode `traiter`, un return de la
+taille des positions et un return de leur fréquence
 
 
 
@@ -63,7 +66,8 @@ pandoc --toc -s -o questionnaire.html questionnaire.txt
 
 # Remarques sur l'Introspection
 
-...
+Assez compliqué sur le papier, je n'ai pas réussi à comprendre les attendus
+donc je n'ai pas pu l'implémenter
 
 
 # Remarques sur XML
@@ -75,7 +79,7 @@ pandoc --toc -s -o questionnaire.html questionnaire.txt
 
 ## Production d'un document XML
 
-...
+Génération OK même si un des tests ne passe pas, je n'ai pas réussi à le corriger
 
 
 # Principaux choix faits
@@ -85,10 +89,11 @@ pandoc --toc -s -o questionnaire.html questionnaire.txt
 
 # Critiques de l'architecture proposée et améliorations possibles
 
-...
+Je n'ai pas vraiment tout fini dans les attendus, mais je pense que l'architecture
+est bien faite je n'ai rien à redire
 
 
 # Difficultés rencontrées
 
-...
+Introspection et SWING qui ne marchait pas, ainsi que la génération de XML
 

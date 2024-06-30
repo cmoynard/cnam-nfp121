@@ -5,17 +5,23 @@
   */
 public class SupprimerPlusGrand extends Traitement {
 
-	private double max;
+    private double seuil;
 
     public SupprimerPlusGrand(double seuil) {
-        this.max = max;
+        this.seuil = seuil;
     }
 
     @Override
     public void traiter(Position position, double valeur) {
-        if (valeur <= this.max) {
+        if (valeur <= seuil) {
             super.traiter(position, valeur);
         }
+    }
+
+    @Override
+    public void gererFinLotLocal(String nomLot) {
+        System.out.println(nomLot + ": valeurs <= " + seuil);
+        super.gererFinLotLocal(nomLot);
     }
 
 }

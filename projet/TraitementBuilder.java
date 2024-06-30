@@ -2,7 +2,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 /**
-  * TraitementBuilder 
+  * TraitementBuilder
   *
   * @author	Xavier CrÃ©gut <Prenom.Nom@enseeiht.fr>
   */
@@ -14,16 +14,12 @@ public class TraitementBuilder {
 	 *   - Normaliseur donne Normaliseur.class
 	 */
 	Class<?> analyserType(String nomType) throws ClassNotFoundException {
-		switch (nomType) {
-			case "int":
-				return int.class;
-			case "double":
-				return double.class;
-			case "String":
-				return String.class;
-			default:
-				return nomType.getClass();
-		}
+        return switch (nomType) {
+            case "int" -> int.class;
+            case "double" -> double.class;
+            case "java.lang.String" -> String.class;
+            default -> throw new ClassNotFoundException("Type non supporté : " + nomType);
+        };
 	}
 
 	/** CrÃ©e l'objet java qui correspond au type formel en exploitant le Â« mot Â» suivant du scanner.
@@ -31,17 +27,14 @@ public class TraitementBuilder {
 	 * Ici, on peut se limiter aux types utlisÃ©s dans le projet : int, double et String.
 	 */
 	static Object decoderEffectif(Class<?> formel, Scanner in) {
-		if (formel == int.class) {
-			return in.nextInt();
-		} else if (formel == double.class) {
-			return in.nextDouble();
-		} else if (formel == String.class) {
-			return in.next();
-		} else {
-			throw new RuntimeException("Type non supporté : " + formel);
-		}
+		return switch (formel.getName()) {
+			case "int" -> in.nextInt();
+			case "double" -> in.nextDouble();
+			case "java.lang.String" -> in.next();
+			default -> throw new IllegalArgumentException("le type n'existe pas | Type : " + formel);
+		};
 	}
-	
+
 
 
 	/** DÃ©finition de la signature, les paramÃ¨tres formels, mais aussi les paramÃ¨tres formels.  */
@@ -61,33 +54,21 @@ public class TraitementBuilder {
 	 *   - [0.0, "xyz", -5] pour les paramÃ¨tres formels.
 	 */
 	Signature analyserSignature(Scanner in) throws ClassNotFoundException {
-		int paramsNumber = in.nextInt();
+		int nbParams = in.nextInt();
 
-		Class<?>[] formels = new Class<?>[paramsNumber];
-		Object[] effectifs = new Object[paramsNumber];
-
-		for (int i = 0; i < paramsNumber; i++) {
-			String paramType = in.next();
-			switch (paramType) {
-				case "int":
-					formels[i] = int.class;
-					effectifs[i] = in.nextInt();
-					break;
-				case "double":
-					formels[i] = double.class;
-					effectifs[i] = in.nextDouble();
-					break;
-				case "String":
-				case "java.lang.String":
-					formels[i] = String.class;
-					effectifs[i] = in.next();
-					break;
-				default:
-					throw new IllegalArgumentException("Unsupported parameter type: " + paramType);
+		if (nbParams != 0) {
+			Signature sign = new Signature(new Class<?>[nbParams], new Object[nbParams]);
+			for (int i = 0; i < nbParams; i++) {
+				sign.formels[i] = analyserType(in.next());
+				sign.effectifs[i] = decoderEffectif(sign.formels[i], in);
 			}
+
+			return sign;
 		}
 
-		return new Signature(formels, effectifs);
+		else {
+			return new Signature(new Class<?>[0], new Object[0]);
+		}
 	}
 
 
@@ -97,41 +78,23 @@ public class TraitementBuilder {
 	 * l'appeler en lui fournissant 0.0 et 100.0 comme paramÃ¨tres effectifs.
 	 */
 	Object analyserCreation(Scanner in)
-		throws ClassNotFoundException, InvocationTargetException,
-						  IllegalAccessException, NoSuchMethodException,
-						  InstantiationException
+			throws ClassNotFoundException, InvocationTargetException,
+			IllegalAccessException, NoSuchMethodException,
+			InstantiationException
 	{
-		String classname = in.next();
+		String className = in.next();
+		Class<?> laclass = Class.forName(className);
 
-		int paramsNumber = in.nextInt();
-
-		Class<?>[] paramsTypes = new Class<?>[paramsNumber];
-		Object[] paramsValeurs = new Object[paramsNumber];
-
-		for (int i = 0; i < paramsNumber; i++) {
-			String paramType = in.next();
-			switch (paramType) {
-				case "int":
-					paramsTypes[i] = int.class;
-					paramsValeurs[i] = in.nextInt();
-					break;
-				case "double":
-					paramsTypes[i] = double.class;
-					paramsValeurs[i] = in.nextDouble();
-					break;
-				case "String":
-					paramsTypes[i] = String.class;
-					paramsValeurs[i] = in.next();
-					break;
-				default:
-					throw new IllegalArgumentException("Unsupported parameter type: " + paramType);
-			}
+		try {
+			laclass = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			throw new ClassNotFoundException("Nom de classe incorrect: " + className, e);
 		}
 
-		Class<?>defclass = Class.forName(classname);
-		Constructor<?> constructor = defclass.getConstructor(paramsTypes);
+		Signature signature = analyserSignature(in);
 
-		return constructor.newInstance(paramsValeurs);
+		Constructor<?> constructor = laclass.getConstructor(signature.formels);
+		return constructor.newInstance(signature.effectifs);
 	}
 
 

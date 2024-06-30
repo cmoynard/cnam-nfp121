@@ -33,12 +33,19 @@ public class Normaliseur extends Traitement {
         double a = (fin - debut) / (max - min);
         double b = fin - a * max;
         System.out.println(nomLot + ": a = " + a + ", b = " + b);
-        String normalizedLotName = nomLot + "_normalized";
+
+        // Check if nomLot already ends with "_normalized"
+        String normalizedLotName = nomLot.endsWith("_normalized") ? nomLot : nomLot + "_normalized";
+
         gererDebutLot(normalizedLotName);
-        for (AbstractMap.SimpleEntry<Position, Double> entry : lotData) {
+
+        // Create a copy of lotData and iterate over the copy
+        List<AbstractMap.SimpleEntry<Position, Double>> copyOfLotData = new ArrayList<>(lotData);
+        for (AbstractMap.SimpleEntry<Position, Double> entry : copyOfLotData) {
             double normalizedValue = a * entry.getValue() + b;
             traiter(entry.getKey(), normalizedValue);
         }
+
         gererFinLot(normalizedLotName);
 
         min = Double.MAX_VALUE;

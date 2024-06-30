@@ -12,7 +12,6 @@ pandoc --toc -s -o questionnaire.html questionnaire.txt
 
 
 # Points non traités du sujet
-- Introspection
 - ExempleAnalyse / Dernière analyse : erreur lors de l'exécution
 ...
 

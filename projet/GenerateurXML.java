@@ -1,9 +1,3 @@
-/**
- * GenerateurXML Ã©crit dans un fichier, Ã  charque fin de lot, toutes
- * les donnÃ©es lues en indiquant le lot dans le fichier XML.
- *
- * @author	Xavier CrÃ©gut <Prenom.Nom@enseeiht.fr>
- */
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -20,6 +14,7 @@ public class GenerateurXML extends Traitement {
     private Document doc;
     private Element currentLot;
     private final Map<String, List<AbstractMap.SimpleEntry<Position, Double>>> lots;
+    private Element root; // Add this line
 
     public GenerateurXML(String nomFichier) {
         this.nomFichier = nomFichier;
@@ -29,6 +24,8 @@ public class GenerateurXML extends Traitement {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             this.doc = dBuilder.newDocument();
+            this.root = doc.createElement("Lots"); // Create the root element
+            this.doc.appendChild(this.root); // Append the root element to the document
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
@@ -38,7 +35,7 @@ public class GenerateurXML extends Traitement {
     protected void gererDebutLotLocal(String nomLot) {
         this.currentLot = doc.createElement("Lot");
         this.currentLot.setAttribute("name", nomLot);
-        this.doc.appendChild(this.currentLot);
+        this.root.appendChild(this.currentLot); // Append the current lot to the root element
         this.lots.put(nomLot, new ArrayList<>());
     }
 
